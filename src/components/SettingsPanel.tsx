@@ -1,6 +1,6 @@
 import React from 'react';
 import { AngleMode, NumberFormat } from '../types/calculator';
-import { FaTimes, FaAngleRight, FaCheck } from 'react-icons/fa';
+import { FaTimes, FaCheck } from 'react-icons/fa';
 
 interface SettingsPanelProps {
   isOpen: boolean;
@@ -35,26 +35,29 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md max-h-[80vh] flex flex-col">
-        {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Calculator Settings
+    <div 
+      className="fixed inset-0 bg-black/60 z-[100] flex items-end sm:items-center justify-center sm:p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white dark:bg-gray-800 rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[85vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex justify-between items-center p-5 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+            Settings
           </h2>
           <button
             onClick={onClose}
-            className="p-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+            className="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
           >
             <FaTimes className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Settings Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-8">
-          {/* Angle Mode */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+            <h3 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
               Angle Unit
             </h3>
             <div className="space-y-2">
@@ -62,31 +65,28 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <button
                   key={mode.value}
                   onClick={() => onAngleModeChange(mode.value)}
-                  className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
+                  className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${
                     angleMode === mode.value
                       ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                      : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                      : 'border-gray-200 dark:border-gray-700'
                   }`}
                 >
                   <div className="text-left">
-                    <div className="font-medium text-gray-800 dark:text-white">
+                    <div className="font-semibold text-gray-800 dark:text-white text-sm">
                       {mode.label}
                     </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {mode.description}
                     </div>
                   </div>
-                  {angleMode === mode.value && (
-                    <FaCheck className="w-5 h-5 text-blue-500" />
-                  )}
+                  {angleMode === mode.value && <FaCheck className="text-blue-500" />}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Number Format */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+            <h3 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
               Number Format
             </h3>
             <div className="space-y-2">
@@ -94,34 +94,25 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <button
                   key={format.value}
                   onClick={() => onNumberFormatChange(format.value)}
-                  className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${
+                  className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${
                     numberFormat === format.value
                       ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                      : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                      : 'border-gray-200 dark:border-gray-700'
                   }`}
                 >
                   <div className="text-left">
-                    <div className="font-medium text-gray-800 dark:text-white">
+                    <div className="font-semibold text-gray-800 dark:text-white text-sm">
                       {format.label}
                     </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {format.description}
                     </div>
                   </div>
-                  {numberFormat === format.value && (
-                    <FaCheck className="w-5 h-5 text-green-500" />
-                  )}
+                  {numberFormat === format.value && <FaCheck className="text-green-500" />}
                 </button>
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="p-6 border-t border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-            Changes are applied immediately
-          </p>
         </div>
       </div>
     </div>
