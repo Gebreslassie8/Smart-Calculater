@@ -32,63 +32,22 @@ const SmartCalculator: React.FC = () => {
 
   const handleButtonClick = (action: string) => {
     switch (action) {
-      case 'clear':
-        handleClear();
-        break;
-      case 'clearEntry':
-        handleClearEntry();
-        break;
-      case 'backspace':
-        handleBackspace();
-        break;
-      case 'decimal':
-        handleDecimal();
-        break;
-      case 'equals':
-        handleEquals();
-        break;
-      case 'negate':
-        handleNegate();
-        break;
-      case '+':
-      case '-':
-      case '×':
-      case '÷':
-      case '%':
-      case '^':
-        handleOperator(action as any);
-        break;
-      case 'sin':
-      case 'cos':
-      case 'tan':
-      case 'log':
-      case 'ln':
-      case '√':
-      case 'x²':
-      case 'x³':
-      case 'π':
-      case 'e':
-      case '1/x':
-      case 'x!':
-      case '10^x':
-      case 'e^x':
-      case 'abs':
-      case 'exp':
-      case 'mod':
-        handleScientific(action as any);
-        break;
-      case 'MC':
-      case 'MR':
-      case 'M+':
-      case 'M-':
-      case 'MS':
-      case 'M↓':
-        handleMemory(action as any);
-        break;
+      case 'clear': handleClear(); break;
+      case 'clearEntry': handleClearEntry(); break;
+      case 'backspace': handleBackspace(); break;
+      case 'decimal': handleDecimal(); break;
+      case 'equals': handleEquals(); break;
+      case 'negate': handleNegate(); break;
+      case '+': case '-': case '×': case '÷': case '%': case '^':
+        handleOperator(action as any); break;
+      case 'sin': case 'cos': case 'tan': case 'log': case 'ln': case '√':
+      case 'x²': case 'x³': case 'π': case 'e': case '1/x': case 'x!':
+      case '10^x': case 'e^x': case 'abs': case 'exp': case 'mod':
+        handleScientific(action as any); break;
+      case 'MC': case 'MR': case 'M+': case 'M-': case 'MS': case 'M↓':
+        handleMemory(action as any); break;
       default:
-        if (/^\d$/.test(action)) {
-          handleNumber(action);
-        }
+        if (/^\d$/.test(action)) handleNumber(action);
         break;
     }
   };
@@ -98,44 +57,36 @@ const SmartCalculator: React.FC = () => {
     setIsHistoryOpen(false);
   };
 
-  // Logo Component (Integrated directly)
+  // Logo Component
   const CalculatorLogo = () => (
-    <div className="flex items-center gap-4">
-      {/* Logo Icon */}
+    <div className="flex items-center gap-3">
       <div className="relative">
-        <div className={`w-16 h-16 rounded-2xl border-4 ${
+        <div className={`w-10 h-10 rounded-xl border-2 ${
           isDarkMode 
             ? 'border-blue-400 bg-gradient-to-br from-blue-600 to-purple-600' 
             : 'border-blue-500 bg-gradient-to-br from-blue-400 to-purple-500'
-        } flex items-center justify-center shadow-2xl`}>
-          {/* Calculator Screen */}
-          <div className="w-10 h-3 bg-green-400 rounded-lg mb-1 shadow-inner"></div>
-          
-          {/* Plus Sign */}
+        } flex items-center justify-center shadow-lg`}>
+          <div className="w-6 h-2 bg-green-400 rounded-sm mb-0.5 shadow-inner"></div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-6 h-1 bg-white rounded-full shadow-sm"></div>
-            <div className="w-1 h-6 bg-white rounded-full shadow-sm absolute"></div>
+            <div className="w-4 h-0.5 bg-white rounded-full"></div>
+            <div className="w-0.5 h-4 bg-white rounded-full absolute"></div>
           </div>
         </div>
-        
-        {/* Decorative Dot */}
-        <div className={`absolute -bottom-2 -right-2 w-4 h-4 rounded-full ${
+        <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full ${
           isDarkMode ? 'bg-cyan-400' : 'bg-cyan-500'
-        } shadow-lg`}></div>
+        } shadow-sm`}></div>
       </div>
-
-      {/* Logo Text */}
       <div className="flex flex-col text-left">
-        <span className={`text-4xl font-bold ${
+        <span className={`text-xl font-bold leading-tight ${
           isDarkMode 
             ? 'text-white' 
             : 'bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
         }`}>
           CalcPro
         </span>
-        <span className={`text-sm font-semibold ${
-          isDarkMode ? 'text-gray-300' : 'text-gray-500'
-        } mt-1`}>
+        <span className={`text-[10px] font-semibold tracking-wider ${
+          isDarkMode ? 'text-gray-400' : 'text-gray-500'
+        }`}>
           SCIENTIFIC EDITION
         </span>
       </div>
@@ -157,73 +108,93 @@ const SmartCalculator: React.FC = () => {
         </>
       )}
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
-        {/* Header with Logo */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <CalculatorLogo />
+      {/* ═══════════════════════════════════════════════════
+          HORIZONTAL HEADER (STICKY) 
+      ═══════════════════════════════════════════════════ */}
+      <header className={`sticky top-0 z-50 w-full border-b backdrop-blur-md transition-all duration-300 ${
+        isDarkMode 
+          ? 'bg-gray-900/80 border-gray-700' 
+          : 'bg-white/80 border-blue-100'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            
+            {/* LEFT: Logo */}
+            <div className="flex-shrink-0 cursor-pointer" onClick={() => window.location.reload()}>
+              <CalculatorLogo />
+            </div>
+
+            {/* RIGHT: Controls */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              
+              {/* Scientific Mode Toggle */}
+              <button
+                onClick={toggleScientificMode}
+                className={`flex items-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 ${
+                  state.isScientificMode
+                    ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md'
+                    : isDarkMode 
+                      ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
+                      : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                }`}
+              >
+                <span className="text-base">💡</span>
+                <span className="hidden sm:inline">{state.isScientificMode ? 'Scientific' : 'Standard'}</span>
+              </button>
+
+              {/* History */}
+              <button
+                onClick={() => setIsHistoryOpen(true)}
+                className={`flex items-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 ${
+                  isDarkMode 
+                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                }`}
+              >
+                <span className="text-base">📜</span>
+                <span className="hidden sm:inline">History</span>
+              </button>
+
+              {/* Settings */}
+              <button
+                onClick={() => setIsSettingsOpen(true)}
+                className={`flex items-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 ${
+                  isDarkMode 
+                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+                }`}
+              >
+                <span className="text-base">⚙️</span>
+                <span className="hidden sm:inline">Settings</span>
+              </button>
+
+              {/* Divider */}
+              <div className={`w-px h-8 mx-1 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`}></div>
+
+              {/* Dark Mode Toggle */}
+              <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className={`flex items-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 ${
+                  isDarkMode 
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md' 
+                    : 'bg-gradient-to-r from-amber-400 to-orange-400 text-white shadow-md'
+                }`}
+              >
+                <span className="text-base">{isDarkMode ? '☀️' : '🌙'}</span>
+                <span className="hidden sm:inline">{isDarkMode ? 'Light' : 'Dark'}</span>
+              </button>
+            </div>
           </div>
-          <p className={`text-xl font-medium ${
-            isDarkMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-          </p>
         </div>
+      </header>
 
+      {/* ═══════════════════════════════════════════════════
+          MAIN CONTENT
+      ═══════════════════════════════════════════════════ */}
+      <main className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-6xl mx-auto">
-          {/* Control Bar */}
-          <div className="flex flex-wrap gap-4 mb-8 justify-center">
-            <button
-              onClick={toggleScientificMode}
-              className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 shadow-lg hover:scale-105 ${
-                state.isScientificMode
-                  ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-purple-200'
-                  : isDarkMode 
-                    ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' 
-                    : 'bg-white text-gray-700 border border-purple-200 hover:border-purple-300'
-              }`}
-            >
-              <span className="text-xl">💡</span>
-              {state.isScientificMode ? 'Scientific Mode' : 'Standard Mode'}
-            </button>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-4">
             
-            <button
-              onClick={() => setIsHistoryOpen(true)}
-              className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 shadow-lg hover:scale-105 ${
-                isDarkMode 
-                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' 
-                  : 'bg-gradient-to-r from-blue-400 to-cyan-400 text-white shadow-blue-200'
-              }`}
-            >
-              <span className="text-xl">📜</span>
-              History
-            </button>
-
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 shadow-lg hover:scale-105 ${
-                isDarkMode 
-                  ? 'bg-gradient-to-r from-gray-600 to-gray-700 text-white' 
-                  : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white shadow-gray-200'
-              }`}
-            >
-              <span className="text-xl">⚙️</span>
-              Settings
-            </button>
-            
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 shadow-lg hover:scale-105 ${
-                isDarkMode 
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' 
-                  : 'bg-gradient-to-r from-amber-400 to-orange-400 text-white shadow-amber-200'
-              }`}
-            >
-              <span className="text-xl">{isDarkMode ? '☀️' : '🌙'}</span>
-              {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Scientific Functions Panel */}
             {state.isScientificMode && (
               <div className="lg:col-span-1">
@@ -232,10 +203,10 @@ const SmartCalculator: React.FC = () => {
                     ? 'bg-gray-800/90 border border-gray-700' 
                     : 'bg-white/80 border border-blue-100'
                 }`}>
-                  <h3 className={`text-xl font-bold mb-6 text-center ${
+                  <h3 className={`text-lg font-bold mb-6 text-center ${
                     isDarkMode ? 'text-white' : 'text-gray-800'
                   }`}>
-                    🔬 Scientific Functions
+                    🔬 Scientific
                   </h3>
                   <div className="grid grid-cols-2 gap-4">
                     {SCIENTIFIC_BUTTONS.map((button) => (
@@ -257,13 +228,14 @@ const SmartCalculator: React.FC = () => {
 
             {/* Main Calculator */}
             <div className={`${state.isScientificMode ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
-              <div className={`rounded-3xl p-8 shadow-2xl backdrop-blur-sm border ${
+              <div className={`rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-sm border ${
                 isDarkMode 
                   ? 'bg-gray-800/95 border-gray-700' 
                   : 'bg-white/90 border-blue-100'
               }`}>
+                
                 {/* Memory Buttons */}
-                <div className="grid grid-cols-6 gap-3 mb-6">
+                <div className="grid grid-cols-6 gap-2 sm:gap-3 mb-6">
                   {MEMORY_BUTTONS.map((button) => (
                     <CalculatorButton
                       key={button.action}
@@ -294,7 +266,7 @@ const SmartCalculator: React.FC = () => {
                 />
 
                 {/* Main Buttons Grid */}
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-4 gap-3 sm:gap-4">
                   {BASIC_BUTTONS.map((button) => (
                     <CalculatorButton
                       key={button.action}
@@ -312,18 +284,18 @@ const SmartCalculator: React.FC = () => {
             </div>
           </div>
         </div>
+      </main>
 
-        {/* Footer */}
-        <div className={`text-center mt-12 pt-8 border-t ${
-          isDarkMode 
-            ? 'border-gray-700 text-gray-400' 
-            : 'border-blue-200 text-gray-600'
-        }`}>
-     <p className="text-xl font-semibold text-blue-600">
-  🚀 Professional Smart Calculator developed by Gebreslassie Dessie
-</p> 
-        </div>
-      </div>
+      {/* Footer */}
+      <footer className={`text-center py-8 mt-4 border-t ${
+        isDarkMode 
+          ? 'border-gray-700 text-gray-400' 
+          : 'border-blue-200 text-gray-600'
+      }`}>
+        <p className="text-sm font-medium">
+          🚀 Professional Smart Calculator developed by <span className="font-bold">Gebreslassie Dessie</span>
+        </p>
+      </footer>
 
       {/* Modals */}
       <HistoryPanel
